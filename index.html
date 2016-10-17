@@ -54,24 +54,35 @@
 			
 			#cB .cB {
 				width: 100%;
-				height: 130px;
+				height: 100%;
 				background: white;
+			}
+			
+			#cB .cB .swiper-wrapper {
+				width: 100%;
+				height: 100%;
+			}
+			
+			#cB .cB .swiper-slide {
+				width: 100%;
+				height: 130px;
+				align-items: center;
 				display: flex;
 				border-bottom: 0.001rem solid lightgray;
 			}
 			
 			#cB img {
-				width: 30%;
-				height: 80%;
-				margin: 4%;
+				width: 32%;
+				height: 84%;
+				margin: 3%;
 				float: left;
 			}
 			
 			#cB .cB1 {
 				float: left;
-				width: 66%;
+				width: 60%;
 				height: 80%;
-				margin: 4% 4% 4% 0;
+				margin: 2% 4% 2% 0;
 			}
 			
 			#cB .cB1 .cB11 {
@@ -100,9 +111,9 @@
 				font-size: 70%;
 			}
 			
-			#cB .cB1 .cB13 p {
-				font-size: 120%;
-				margin: 0 0 0 5%;
+			#cB .cB1 .cB12 p {
+				/*font-size: 120%;*/
+				margin: 2% 0 0 2%;
 			}
 			
 			#cB .cB1 .cB13 {
@@ -122,12 +133,12 @@
 				color: white;
 			}
 			
-			.swiper-container {
+			.swiper1 {
 				width: 100%;
 				height: 100%;
 			}
 			
-			.swiper-slide img {
+			#cC .swiper-slide img {
 				width: 100%;
 				height: 100%;
 			}
@@ -145,7 +156,7 @@
 				<input type="text" placeholder=" 请输入搜索内容" id="mySearch" class="iconFont" style="width:95%;height:60%;border:none;border-radius:0.6rem;" results="s" />
 			</div>
 			<div id="cC" class="pageCont">
-				<div class="swiper-container">
+				<div class="swiper-container swiper1">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide"></div>
 						<div class="swiper-slide"></div>
@@ -157,7 +168,11 @@
 
 			</div>
 			<div id="cB">
+				<div class="swiper-container cB">
+					<div class="swiper-wrapper">
 
+					</div>
+				</div>
 			</div>
 		</div>
 		<div id="footer">
@@ -165,7 +180,8 @@
 		</div>
 
 		<script type="text/html" id="product-tpl">
-			<div class="cB">
+
+			<div class="swiper-slide">
 				<img src="{{src}}" goodsid="{{goodsid}}">
 				<div class="cB1">
 					<p class="cB11">{{description}}</p>
@@ -178,6 +194,7 @@
 					</div>
 				</div>
 			</div>
+
 		</script>
 		<script src="javascripts/jquery-1.12.1.js"></script>
 		<script src="javascripts/swiper.min.js"></script>
@@ -188,43 +205,43 @@
 			$.ajax({
 				url: 'http://datainfo.duapp.com/shopdata/getGoods.php',
 				dataType: 'jsonp',
+				type: 'GET',
 				success: function(data) {
-
+					console.log(data)
 					var len = data.length;
-					for(var i= 0;i<len;i++){
+					console.log(len)
+					for(var i = 0; i < len; i++) {
 						createProduct(data[i]);
 					}
-						
-						$(".cB").on("click tap","button",function() {
-								var goodsID = $(this).attr("getGoodID");
-								$.ajax({
-									data: {
-										userID: name,
-										goodsID: goodsID,
-										number: 1
-									},
-									url: 'http://datainfo.duapp.com/shopdata/updatecar.php',
 
-									type: "GET",
-									async: true,
-									success: function(data) {
-										if(data == 1) {
-											console.log("yes")
-										}
-										if(data == 0) {
-											console.log("no")
-											alert("请先登录！")
-											window.location.href = "myshow.html";
-										}
+					$(".cB").on("click tap", "button", function() {
+						var goodsID = $(this).attr("getGoodID");
+						$.ajax({
+							data: {
+								userID: name,
+								goodsID: goodsID,
+								number: 1
+							},
+							url: 'http://datainfo.duapp.com/shopdata/updatecar.php',
 
-									}
-								})
+							type: "GET",
+							async: true,
+							success: function(data) {
+								if(data == 1) {
+									console.log("yes")
+								}
+								if(data == 0) {
+									console.log("no")
+									alert("请先登录！")
+									window.location.href = "myshow.html";
+								}
 
+							}
 						})
-					
-						
+
+					})
+
 				},
-				
 
 				error: function(err) {
 					console.log(2);
@@ -241,7 +258,7 @@
 					.replace('{{cut}}', data.discount)
 					.replace('{{getGoodID}}', data.goodsID)
 				var $product = $(htmlStr);
-				$('#cB').append($product);
+				$('#cB .cB .swiper-wrapper').append($product);
 
 				$(document).on('click tap', '#cB img', function() {
 					var that = $(this);
@@ -276,11 +293,14 @@
 				}
 			});
 
-			var swiper = new Swiper('.swiper-container', {
+			var swiper = new Swiper('.swiper1', {
 				pagination: '.swiper-pagination',
 				paginationClickable: true,
 				//		        freeMode:true
 			});
+			var swiper = new Swiper(".cB", {
+				direction: 'vertical'
+			})
 		</script>
 	</body>
 
