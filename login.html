@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!-- SEO  -->
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+		<!-- 苹果专用 -->
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+		<meta name="format-detection" content="telephone=no" />
+		<!-- 简单移动端适配 -->
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<!-- 图标 -->
+		<link rel="stylesheet" href="stylesheets/iconfont.css">
+		<link rel="stylesheet" type="text/css" href="stylesheets/easyui.css">
+		<link rel="stylesheet" href="stylesheets/swiper.min.css">
+	</head>
+
+	<body>
+		<style>
+			/****************框架*********************/
+			
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				border: 0;
+			}
+			
+			#container {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 50px;
+				bottom: 66px;
+				text-align: center;
+				font-family: "微软雅黑";
+				font-size: 1.2rem;
+			}
+			/*********************中部内容***********************/
+		
+		</style>
+		<div id="container">
+			<div>
+				<input placeholder=" 账号"></input>
+				<input placeholder=" 密码"></input>
+				<div>
+					
+				</div>
+			</div>
+			
+			
+		</div>
+		<script src="javascripts/jquery-1.12.1.js"></script>
+
+		<script src="javascripts/swiper.jquery.min.js"></script>
+		<script>
+			$('#header').load("header1.html");
+			$('#footer').load("footer.html");
+			var mySwiper = new Swiper('.pageCont', {
+
+			})
+
+			$(function() {
+
+				$('.logInButton').click(function() {
+
+					console.log($('#choose').prop('checked'));
+					$('.logInButton').removeAttr('disabled');
+					var user = $('#user').val();
+					var pw = $('#password').val();
+					$.ajax({
+						type: 'post',
+						url: '/api/login',
+						data: {
+							user: user,
+							password: pw
+						},
+						success: function(data) {
+							if(data.ret) {
+								location.href = 'index.html'
+							} else {
+								$('#error-info').css('display', 'block')
+							}
+						}
+
+					})
+
+				});
+			})
+		</script>
+	</body>
+
+</html>

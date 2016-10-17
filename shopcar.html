@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!-- SEO  -->
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+		<!-- 苹果专用 -->
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+		<meta name="format-detection" content="telephone=no" />
+		<!-- 简单移动端适配 -->
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<!-- 图标 -->
+	</head>
+	<link rel="stylesheet" href="stylesheets/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/easyui.css">
+
+	<body>
+		<style>
+			/****************框架*********************/
+			
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				border: 0;
+			}
+			
+			p {
+				margin: 0;
+				padding: 0;
+			}
+			
+			#container {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 50px;
+				bottom: 66px;
+				text-align: center;
+				font-family: "微软雅黑";
+				font-size: 1.2rem;
+			}
+			/*********************中部内容***********************/
+			
+			#footer div:nth-of-type(3) {
+				border-top: 2px solid red;
+			}
+			/**************************新加头部button****************************/
+		</style>
+		<div id="header">
+
+		</div>
+		<div id="container">
+			<div id="none" style="display:none;">
+				<div style="width:100%;height:50px;"></div>
+				<p>您的购物车空空~</p>
+				<img src="images/shopcar1.jpg" style="width:44%;height:25%;border:4px solid #d2d2d2; border-radius:10%;">
+				<div style="width:100%;height:40px;"></div>
+				<button style="width:68%;height:8%;border:none;color:white;font-size:26px;font-family:'微软雅黑';background:url(images/shopcar2.jpg) repeat-x;">去逛逛</button>
+			</div>
+			<div id="have">
+				
+			</div>
+		</div>
+
+		<div id="footer">
+
+		</div>
+		<script type="text/html" id="product-tpl">
+			<div style="width:100%;height:50px;background:#333333;display:flex;color:white;font-size:0.9rem;">
+					<span style="flex:1;line-height:50px;">商品数量 :<b> 1</b></span>
+					<span style="flex:2;line-height:50px;">应付总额（不含运费）:<b style="color:red;"> ￥ {{price}}</b></span>
+				</div>
+				<div style="width:100%;height:130px;display: flex;border-bottom: 0.001rem solid lightgray;">
+					<img src="{{goodsListImg}}" style="width:30%;height:80%;float:left;margin:4%;">
+					<div style="text-align:left;margin:4% 4% 4% 0;width:70%;">
+						<p style="font-size:19px;">{{goodsName}}</p>
+						<p>单价 ： ￥{{price}}</p>
+						<p>数量 ：
+							<button id="low" style="width:20px;height:18px;margin:3px;background:url(images/shopcar4.jpg) repeat-x;border:0;border-radius:3px;color:white;">-</button>
+							<input type="number" value="1" style="width:15%;height:20px;">
+							<button id="high" style="width:20px;height:18px;margin:3px;background:url(images/shopcar4.jpg) repeat-x;border:0;border-radius:3px;color:white;">+</button>
+						</p>
+						<div style="position:absolute;left:85%;top:18%;"><img src="images/shopcar-trash.jpg" style="width:80%;height:80%;"></div>
+					</div>
+				</div>
+		</script>
+		<script src="js/jquery-1.12.1.js"></script>
+		<script>
+			$('#header').load("header1.html", function() {
+				$("#header").append("<button>去结算</button>")
+				$("#header button").eq(0).css({
+
+					"border": "1px solid lightgray",
+					"width": "20%",
+					"height": "30px",
+					"color": "white",
+					"font-size": "15px",
+					"text-align": "center",
+					"line-height": "27px",
+					"position": "absolute",
+					"left": "78%",
+					"top": "20%",
+					"background": "url(images/shopcar3.jpg) repeat-x center center",
+					"border-radius": "8px",
+					"font-family": "微软雅黑"
+
+				})
+			});
+			$('#footer').load("footer.html");
+			
+			var getGoodID = sessionStorage.getItem("getGoodID");
+			console.log(getGoodID)
+			var dataJSON = {
+				goodsID: getGoodID,
+			}
+			$.ajax({
+				type:"GET",
+				url: 'http://datainfo.duapp.com/shopdata/getGoods.php',
+				data:dataJSON,
+				dataType:"JSONP",
+				success:function(data){
+					createProduct(data[0]);
+				},
+				error:function(err){
+					console.log("fuck!")
+				}
+			})
+			function createProduct(data){
+				console.log(data[0])
+					var tpl = $('#product-tpl').html();
+					var htmlStr = tpl.replace('{{goodsListImg}}',data.goodsListImg)
+							.replace('{{goodsName}}',data.goodsName)
+							.replace(/{{price}}/g,data.price)
+					var $product = $(htmlStr);
+					$('#have').append($product);
+			}
+		</script>
+	</body>
+
+</html>

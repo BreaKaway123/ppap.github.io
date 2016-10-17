@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- SEO  -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!-- 苹果专用 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- 简单移动端适配 -->
+   	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <!-- 图标 -->
+    <link rel="stylesheet" href="stylesheets/swiper.min.css">
+    <link rel="stylesheet" href="stylesheets/animate.min.css">
+
+   
+    <style>
+    html,body {
+    	width:100%;
+    	height:100%;
+        background: #fff;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+       
+    }
+    .swiper-slide {
+        background-position: center;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+    }
+    #start-img {
+    -webkit-animation-duration: 5s;
+    animation-duration: 5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    animation-delay: 2s;
+}
+    </style>
+</head>
+<body>
+    <!-- Swiper -->
+    <div id="start-img" class="animated fadeOut" style="position:absolute; width:100%;height:100%;z-index: 2;"><img src="images/start-img.jpg" style="width:100%;height:100%;"></div>
+    <div class="swiper-container" style="position:absolute;">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="images/1-1.jpg" style="width:100%;height:100%;"></div>
+            <div class="swiper-slide"><img src="images/2-1.jpg" style="width:100%;height:100%;"></div>
+            <div class="swiper-slide"><img src="images/3-1.jpg" style="width:100%;height:100%;"></div>
+            <div class="swiper-slide"><img src="images/4-2.jpg" style="width:100%;height:100%;position:absolute;">
+            	<button style="position:absolute;left:30%;top:65%;width:42%;height:8%;border:none;border-radius:0.3rem;color:#ffffff;font-size:0.8rem;background:url(images/start-backgroundColor.jpg) repeat-x">开始体验</button>
+            </div>
+        </div>
+
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+
+        <!-- Add Arrows -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="javascripts/app.js"></script>
+    <script src="javascripts/swiper.min.js"></script>
+    <script src="javascripts/jquery-1.12.1.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        effect: 'flip',
+        grabCursor: true,
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev'
+    });
+    
+   $("#start-img").on("touchstart",function(){
+   		$(this).css({
+   			"z-index":"0"
+   		})
+   })
+   $("button").eq(0).on("touchstart",function(){
+   		location.href="index.html"
+   })
+   
+   
+   
+    </script>
+</body>
+</html>
